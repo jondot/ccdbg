@@ -1,6 +1,6 @@
 # Prices are USD per million tokens. Source: anthropic.com/pricing as of
 # 2026-04. Claude Code may have negotiated rates; treat all estimates as
-# approximate. Override by copying this file to ~/.config/ccwhy/pricing.toml.
+# approximate. Override by copying this file to ~/.config/ccdbg/pricing.toml.
 
 ["claude-sonnet-4-6"]
 input = 3.00

@@ -20,7 +20,7 @@ function Shell() {
       <div className="p-8">
         <p className="text-destructive font-medium">Failed to load: {load.error.message}</p>
         <p className="text-muted-foreground text-sm mt-1">
-          Make sure you launched via <code>ccwhy web</code>.
+          Make sure you launched via <code>ccdbg web</code>.
         </p>
       </div>
     )
@@ -33,7 +33,7 @@ function Shell() {
       <header className="border-b">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-baseline justify-between">
           <div>
-            <h1 className="text-xl font-semibold tracking-tight">ccwhy</h1>
+            <h1 className="text-xl font-semibold tracking-tight">ccdbg</h1>
             <p className="text-xs text-muted-foreground font-mono">
               {bundle.sessions.length} sessions · $
               {bundle.sessions.reduce((a, s) => a + s.estimated_cost_usd, 0).toFixed(2)} total

@@ -1,0 +1,8 @@
+{
+  "name": "@ccdbg/cli-linux-x64",
+  "version": "0.1.0",
+  "description": "ccdbg binary for linux x64",
+  "license": "MIT",
+  "os": ["linux"],
+  "cpu": ["x64"]
+}

@@ -1,0 +1,45 @@
+# Prices are USD per million tokens. Source: anthropic.com/pricing as of
+# 2026-04. Claude Code may have negotiated rates; treat all estimates as
+# approximate. Override by copying this file to ~/.config/ccwhy/pricing.toml.
+
+["claude-sonnet-4-6"]
+input = 3.00
+output = 15.00
+cache_read = 0.30
+cache_creation_5m = 3.75
+cache_creation_1h = 3.75
+
+["claude-sonnet-4-5"]
+input = 3.00
+output = 15.00
+cache_read = 0.30
+cache_creation_5m = 3.75
+cache_creation_1h = 3.75
+
+["claude-opus-4-7"]
+input = 15.00
+output = 75.00
+cache_read = 1.50
+cache_creation_5m = 18.75
+cache_creation_1h = 18.75
+
+["claude-opus-4-6"]
+input = 15.00
+output = 75.00
+cache_read = 1.50
+cache_creation_5m = 18.75
+cache_creation_1h = 18.75
+
+["claude-haiku-4-5"]
+input = 0.80
+output = 4.00
+cache_read = 0.08
+cache_creation_5m = 1.00
+cache_creation_1h = 1.00
+
+["claude-haiku-4-5-20251001"]
+input = 0.80
+output = 4.00
+cache_read = 0.08
+cache_creation_5m = 1.00
+cache_creation_1h = 1.00

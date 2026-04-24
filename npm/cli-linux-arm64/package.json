@@ -1,0 +1,8 @@
+{
+  "name": "@ccdbg/cli-linux-arm64",
+  "version": "0.1.0",
+  "description": "ccdbg binary for linux arm64",
+  "license": "MIT",
+  "os": ["linux"],
+  "cpu": ["arm64"]
+}

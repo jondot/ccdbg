@@ -1,0 +1,36 @@
+[package]
+name = "ccdbg"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+description = "Local analyzer for Claude Code session data."
+repository = "https://github.com/jondot/ccdbg"
+homepage = "https://github.com/jondot/ccdbg"
+documentation = "https://github.com/jondot/ccdbg#readme"
+
+[lib]
+name = "ccdbg"
+path = "src/lib.rs"
+
+[[bin]]
+name = "ccdbg"
+path = "src/main.rs"
+
+[dependencies]
+anyhow = "1"
+axum = "0.7"
+chrono = { version = "0.4", features = ["serde"] }
+clap = { version = "4", features = ["derive"] }
+dirs = "5"
+include_dir = "0.7"
+rayon = "1"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
+toml = "0.8"
+tower-http = { version = "0.5", features = ["trace"] }
+walkdir = "2"
+webbrowser = "1"
+
+[dev-dependencies]
+tempfile = "3"

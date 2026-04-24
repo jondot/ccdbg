@@ -1,0 +1,15 @@
+{
+  "name": "@ccdbg/cli",
+  "version": "0.1.0",
+  "description": "Claude Code session analyzer",
+  "license": "MIT",
+  "bin": {
+    "ccdbg": "bin/ccdbg"
+  },
+  "optionalDependencies": {
+    "@ccdbg/cli-darwin-arm64": "0.1.0",
+    "@ccdbg/cli-darwin-x64": "0.1.0",
+    "@ccdbg/cli-linux-arm64": "0.1.0",
+    "@ccdbg/cli-linux-x64": "0.1.0"
+  }
+}

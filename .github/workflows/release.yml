@@ -115,6 +115,12 @@ jobs:
           for pkg in npm/ccdbg npm/cli-darwin-arm64 npm/cli-darwin-x64 npm/cli-linux-x64 npm/cli-linux-arm64; do
             npm --prefix "$pkg" version "$VERSION" --no-git-tag-version --allow-same-version
           done
+          node -e "
+            const fs = require('fs');
+            const p = JSON.parse(fs.readFileSync('npm/ccdbg/package.json'));
+            Object.keys(p.optionalDependencies).forEach(k => p.optionalDependencies[k] = process.env.VERSION);
+            fs.writeFileSync('npm/ccdbg/package.json', JSON.stringify(p, null, 2) + '\n');
+          "
 
       - name: Publish platform packages
         run: |

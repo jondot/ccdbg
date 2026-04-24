@@ -24,7 +24,11 @@ pub struct Bundle<'a> {
     pub model_rates: HashMap<String, ModelRates>,
 }
 
-pub fn build<'a>(sessions: &'a [Session], insights: &'a [Insight], pricing: &Pricing) -> Bundle<'a> {
+pub fn build<'a>(
+    sessions: &'a [Session],
+    insights: &'a [Insight],
+    pricing: &Pricing,
+) -> Bundle<'a> {
     let model_rates = pricing
         .models
         .iter()

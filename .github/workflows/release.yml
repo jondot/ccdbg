@@ -106,11 +106,15 @@ jobs:
 
       - name: Prepare npm packages
         run: |
+          VERSION="${GITHUB_REF_NAME#v}"
           mkdir -p npm/ccdbg/bin
           tar xzf artifacts/ccdbg-aarch64-apple-darwin/ccdbg-aarch64-apple-darwin.tar.gz   -C npm/cli-darwin-arm64/ 2>/dev/null || true
           tar xzf artifacts/ccdbg-x86_64-apple-darwin/ccdbg-x86_64-apple-darwin.tar.gz     -C npm/cli-darwin-x64/  2>/dev/null || true
           tar xzf artifacts/ccdbg-x86_64-unknown-linux-gnu/ccdbg-x86_64-unknown-linux-gnu.tar.gz -C npm/cli-linux-x64/ 2>/dev/null || true
           tar xzf artifacts/ccdbg-aarch64-unknown-linux-gnu/ccdbg-aarch64-unknown-linux-gnu.tar.gz -C npm/cli-linux-arm64/ 2>/dev/null || true
+          for pkg in npm/ccdbg npm/cli-darwin-arm64 npm/cli-darwin-x64 npm/cli-linux-x64 npm/cli-linux-arm64; do
+            npm --prefix "$pkg" version "$VERSION" --no-git-tag-version --allow-same-version
+          done
 
       - name: Publish platform packages
         run: |

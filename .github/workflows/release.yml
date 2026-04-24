@@ -118,7 +118,8 @@ jobs:
           node -e "
             const fs = require('fs');
             const p = JSON.parse(fs.readFileSync('npm/ccdbg/package.json'));
-            Object.keys(p.optionalDependencies).forEach(k => p.optionalDependencies[k] = process.env.VERSION);
+            const v = p.version;
+            Object.keys(p.optionalDependencies).forEach(k => p.optionalDependencies[k] = v);
             fs.writeFileSync('npm/ccdbg/package.json', JSON.stringify(p, null, 2) + '\n');
           "
 

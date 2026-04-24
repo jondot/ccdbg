@@ -169,7 +169,11 @@ pub fn cache_waste(sessions: &[Session], pricing: &Pricing) -> Vec<Insight> {
     }
 
     wasted_session_ids.sort_by(|a, b| b.1.partial_cmp(&a.1).unwrap());
-    let evidence = wasted_session_ids.iter().take(5).map(|(i, _)| i.clone()).collect();
+    let evidence = wasted_session_ids
+        .iter()
+        .take(5)
+        .map(|(i, _)| i.clone())
+        .collect();
 
     let severity = if total_waste_usd >= 10.0 {
         Severity::High
@@ -246,10 +250,8 @@ pub fn tool_error_cost(sessions: &[Session], pricing: &Pricing) -> Vec<Insight> 
     }
 
     let total: f64 = agg.values().map(|(c, _)| c).sum();
-    let mut ranked: Vec<(String, f64, u64)> = agg
-        .into_iter()
-        .map(|(k, (c, n))| (k, c, n))
-        .collect();
+    let mut ranked: Vec<(String, f64, u64)> =
+        agg.into_iter().map(|(k, (c, n))| (k, c, n)).collect();
     ranked.sort_by(|a, b| b.1.partial_cmp(&a.1).unwrap());
     let top = &ranked[0];
 
@@ -331,7 +333,11 @@ pub fn subagent_overhead(sessions: &[Session], _pricing: &Pricing) -> Vec<Insigh
     }
     fn mean(xs: impl Iterator<Item = f64>) -> f64 {
         let v: Vec<f64> = xs.collect();
-        if v.is_empty() { 0.0 } else { v.iter().sum::<f64>() / v.len() as f64 }
+        if v.is_empty() {
+            0.0
+        } else {
+            v.iter().sum::<f64>() / v.len() as f64
+        }
     }
     let cost_per_turn = |s: &&Session| s.estimated_cost_usd / s.turns.len() as f64;
     let heavy_cpt = mean(heavy.iter().map(cost_per_turn));
@@ -339,7 +345,11 @@ pub fn subagent_overhead(sessions: &[Session], _pricing: &Pricing) -> Vec<Insigh
     let heavy_turns = mean(heavy.iter().map(|s| s.turns.len() as f64));
     let main_turns = mean(main_only.iter().map(|s| s.turns.len() as f64));
 
-    let ratio = if main_cpt > 0.0 { heavy_cpt / main_cpt } else { 1.0 };
+    let ratio = if main_cpt > 0.0 {
+        heavy_cpt / main_cpt
+    } else {
+        1.0
+    };
 
     let flag = ratio > 1.3 && heavy_turns >= main_turns;
     let severity = if flag { Severity::Warn } else { Severity::Info };
@@ -382,7 +392,9 @@ pub fn context_decay(sessions: &[Session], _pricing: &Pricing) -> Vec<Insight> {
     for s in sessions {
         for t in &s.turns {
             let ctx = t.context_window_tokens;
-            let bi = BUCKETS.iter().position(|(lo, hi, _)| ctx >= *lo && ctx < *hi);
+            let bi = BUCKETS
+                .iter()
+                .position(|(lo, hi, _)| ctx >= *lo && ctx < *hi);
             let Some(bi) = bi else { continue };
             for tc in &t.tool_calls {
                 totals[bi] += 1;
@@ -512,10 +524,11 @@ pub fn idle_gap_cost(sessions: &[Session], pricing: &Pricing) -> Vec<Insight> {
         metric_value: total,
         metric_unit: "USD".into(),
         mitigation: Some(Mitigation {
-            advice:
-                "`/clear` before lunch or long breaks, or start a new session when resuming."
-                    .into(),
-            example_from_your_data: per_session.first().map(|(id, v)| format!("{}: ${:.2}", id, v)),
+            advice: "`/clear` before lunch or long breaks, or start a new session when resuming."
+                .into(),
+            example_from_your_data: per_session
+                .first()
+                .map(|(id, v)| format!("{}: ${:.2}", id, v)),
         }),
         evidence_session_ids: per_session.into_iter().take(3).map(|(id, _)| id).collect(),
     }]

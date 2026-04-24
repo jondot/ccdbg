@@ -3,7 +3,11 @@ use ccdbg::{analyses, export, ingest, model, pricing, web};
 use clap::{Parser, Subcommand};
 
 #[derive(Parser)]
-#[command(name = "ccdbg", version, about = "Local analyzer for Claude Code sessions")]
+#[command(
+    name = "ccdbg",
+    version,
+    about = "Local analyzer for Claude Code sessions"
+)]
 struct Cli {
     #[command(subcommand)]
     cmd: Option<Cmd>,
@@ -33,8 +37,8 @@ fn main() -> Result<()> {
             let claude_home = ingest::resolve_claude_home();
             eprintln!("ingesting from {}", claude_home.display());
             let pricing = pricing::Pricing::load().context("loading pricing")?;
-            let cache = ingest::Cache::new(ingest::Cache::resolve())
-                .context("preparing cache dir")?;
+            let cache =
+                ingest::Cache::new(ingest::Cache::resolve()).context("preparing cache dir")?;
             let (sessions, n_reingested) =
                 ingest::scan_incremental(&claude_home, &cache, &pricing, cli.reindex)?;
             eprintln!(
@@ -60,8 +64,8 @@ fn main() -> Result<()> {
         Cmd::Export { path } => {
             let claude_home = ingest::resolve_claude_home();
             let pricing = pricing::Pricing::load().context("loading pricing")?;
-            let cache = ingest::Cache::new(ingest::Cache::resolve())
-                .context("preparing cache dir")?;
+            let cache =
+                ingest::Cache::new(ingest::Cache::resolve()).context("preparing cache dir")?;
             let (sessions, _) =
                 ingest::scan_incremental(&claude_home, &cache, &pricing, cli.reindex)?;
             let insights = analyses::run_all(&sessions, &pricing);

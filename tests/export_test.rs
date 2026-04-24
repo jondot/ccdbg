@@ -2,8 +2,7 @@ use std::path::PathBuf;
 
 #[test]
 fn export_bundle_round_trips_through_json() {
-    let fx = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-        .join("tests/fixtures/minimal_session.jsonl");
+    let fx = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("tests/fixtures/minimal_session.jsonl");
     let recs = ccdbg::ingest::parse_jsonl(&fx).unwrap();
     let (a, u) = ccdbg::ingest::group_messages(recs);
     let p = ccdbg::pricing::Pricing::load().unwrap();

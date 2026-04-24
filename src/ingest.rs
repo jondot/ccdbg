@@ -5,7 +5,7 @@
 //! "user" and "assistant" records are relevant for analysis. We deserialize
 //! into a permissive `RawRecord` struct and filter/dispatch downstream.
 
-use crate::model::{Session, ToolCall, TokenTotals, Turn, TurnRole};
+use crate::model::{Session, TokenTotals, ToolCall, Turn, TurnRole};
 use anyhow::{Context, Result};
 use chrono::{DateTime, Utc};
 use serde::Deserialize;
@@ -212,9 +212,7 @@ pub fn group_messages(recs: Vec<RawRecord>) -> (Vec<AssistantMessage>, Vec<UserM
                             // Extract the first text-type content block as the user prompt
                             let text = content
                                 .iter()
-                                .find(|b| {
-                                    b.get("type").and_then(|t| t.as_str()) == Some("text")
-                                })
+                                .find(|b| b.get("type").and_then(|t| t.as_str()) == Some("text"))
                                 .and_then(|b| b.get("text").and_then(|t| t.as_str()))
                                 .map(|s| s.to_string());
                             (content, text)
@@ -415,8 +413,7 @@ pub fn build_sessions(
             }
             *model_output.entry(m.model.clone()).or_insert(0) += m.usage.output;
 
-            let calls =
-                extract_tool_calls_for_message(&m.content_blocks, i, &tool_results_by_id);
+            let calls = extract_tool_calls_for_message(&m.content_blocks, i, &tool_results_by_id);
             flat_calls.extend(calls.iter().cloned());
 
             turns.push(Turn {
@@ -484,7 +481,9 @@ pub fn load_history_prompts(claude_home: &Path) -> HashMap<String, String> {
         let Ok(val) = serde_json::from_str::<serde_json::Value>(line) else {
             continue;
         };
-        let Some(sid) = val["sessionId"].as_str() else { continue };
+        let Some(sid) = val["sessionId"].as_str() else {
+            continue;
+        };
         // First entry (earliest prompt) per session wins
         if map.contains_key(sid) {
             continue;
@@ -631,9 +630,7 @@ impl Cache {
         };
         entries
             .filter_map(|e| e.ok())
-            .filter(|e| {
-                e.path().extension().and_then(|x| x.to_str()) == Some("json")
-            })
+            .filter(|e| e.path().extension().and_then(|x| x.to_str()) == Some("json"))
             .filter_map(|e| {
                 let s = std::fs::read_to_string(e.path()).ok()?;
                 serde_json::from_str(&s).ok()
@@ -832,8 +829,18 @@ mod tests {
     #[test]
     fn count_loops_returns_zero_for_no_repeats() {
         let calls = vec![
-            ToolCall { tool: "A".into(), input_summary: "x".into(), success: true, turn_index: 0 },
-            ToolCall { tool: "B".into(), input_summary: "y".into(), success: true, turn_index: 1 },
+            ToolCall {
+                tool: "A".into(),
+                input_summary: "x".into(),
+                success: true,
+                turn_index: 0,
+            },
+            ToolCall {
+                tool: "B".into(),
+                input_summary: "y".into(),
+                success: true,
+                turn_index: 1,
+            },
         ];
         assert_eq!(count_loops(&calls), 0);
     }
@@ -856,8 +863,7 @@ mod tests {
         let ch = tmp.path().join("claude");
         let proj = ch.join("projects").join("-Users-dev-demo");
         std::fs::create_dir_all(&proj).unwrap();
-        let fixture_bytes =
-            std::fs::read(&fixture("minimal_session.jsonl")).unwrap();
+        let fixture_bytes = std::fs::read(&fixture("minimal_session.jsonl")).unwrap();
         std::fs::write(proj.join("sess.jsonl"), &fixture_bytes).unwrap();
 
         let cache_root = tmp.path().join("cache");

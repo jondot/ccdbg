@@ -7,9 +7,9 @@
     "ccdbg": "bin/ccdbg"
   },
   "optionalDependencies": {
-    "@ccdbg/cli-darwin-arm64": "0.1.0",
-    "@ccdbg/cli-darwin-x64": "0.1.0",
-    "@ccdbg/cli-linux-arm64": "0.1.0",
-    "@ccdbg/cli-linux-x64": "0.1.0"
+    "@ccdbg/cli-darwin-arm64": "*",
+    "@ccdbg/cli-darwin-x64": "*",
+    "@ccdbg/cli-linux-arm64": "*",
+    "@ccdbg/cli-linux-x64": "*"
   }
 }
